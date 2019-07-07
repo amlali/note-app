@@ -1,5 +1,6 @@
-let accessSchma = require('../db/migration/access')
+let accessSchma = require('../validation/schema/access')
 let AccessService = require('../services/access') 
+let Security = require('../security')
 const Ajv = require('ajv');
 let ajv = new Ajv();
 
@@ -16,7 +17,12 @@ module.exports = {
             } 
             else{
                 AccessService.loginWithEmailAndPassword(req.body).then((data)=>{
-                     return res.status(200).json(data.message)
+                    Security.generateTicketData(data,(ticket)=>{
+
+                        return res.status(200).json({user:data.user,ticket:ticket})
+                    })
+
+                     
                  }).catch((err)=>{
                     return res.status(err.status).json(err.error)
                  })

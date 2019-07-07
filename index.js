@@ -4,7 +4,6 @@ const bodyParser = require('body-parser')
 const cors = require('cors')
 var Helmet = require("helmet");
 const DBConnection = require('./db/connections')
-
 const PORT = 3000
 const errorApp = require('./middelware/error')
 let app = express();

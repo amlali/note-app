@@ -1,4 +1,4 @@
-let userValidation = require('../db/migration/userSchema')
+let userValidation = require('../validation/schema/userSchema')
 let userService = require('../services/user') 
 const Ajv = require('ajv');
 let ajv = new Ajv();

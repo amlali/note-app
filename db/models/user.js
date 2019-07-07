@@ -1,5 +1,6 @@
  const mongoose = require("mongoose");
  const bcrypt   = require('bcryptjs');
+ let role = require('../../util/roles')
  let timePlugin = require('../plugins/timePlugin')
  let User = mongoose.Schema({
 	//fullname
@@ -16,12 +17,11 @@
 	//usually active when email verified and is online
 	active               : { type: Boolean, default: false},
 
-
+	role				 : {type: String , default:role.roles.user.name },
 	//password reset
 	passwordResetsCount  : { type: Number, default:0},
 	lastPasswordResetAt  : { type: Date},
 	nextResetAt          : { type: Date},
-
 	nationality          : { type: String},
 
 	
@@ -36,14 +36,13 @@ User.methods.generateHash = function(password){
 };
 
 //checkPasswordValidationrequi
-User.methods.isValidPassword = function(password){
-	if(!this.password) return false;requi
-	return bcrypt.compareSync(passworequird, this.password);
-};
+
 User.methods.createUser = function(obj){
     this.fullname = obj.fullname;
-    this.email = obj.email;
-    this.password = this.generateHash(obj.password);
+	this.email = obj.email;
+	this.password = this.generateHash(obj.password);
+	if(obj.role) this.role = obj.role;
+	
 }
 User.methods.isValidPassword = function(password){
 	if(!this.password) return false;

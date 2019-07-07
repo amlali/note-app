@@ -5,6 +5,7 @@ class AccessService {
     
     loginWithEmailAndPassword (userData){
         console.log('in side loign',userData);
+
         return new Promise (function(resolve, reject) {
 
             User.findOne({ email : userData.email },function (err , user){
@@ -19,7 +20,8 @@ class AccessService {
                     if(!user.isValidPassword(userData.password))
                         return reject({status:400,error:'invalid password'});
                     else
-                        return resolve({status:200 , message: 'login successfully'})
+                        user.password=undefined
+                        return resolve({status:200 , message: 'login successfully', user:user})
 
                 }
             })
